@@ -16,6 +16,11 @@ public final class OperatorNode extends ASTNode {
         this.right = right;
     }
 
+    @Override
+    public <T> T accept(ASTVisitor<T> visitor) {
+        return visitor.visitOperator(this);
+    }
+
     public Operator getOperator() {
         return operator;
     }
@@ -26,10 +31,5 @@ public final class OperatorNode extends ASTNode {
 
     public ASTNode getRight() {
         return right;
-    }
-
-    @Override
-    public <T> T accept(ASTVisitor<T> visitor) {
-        return visitor.visitOperator(this);
     }
 }

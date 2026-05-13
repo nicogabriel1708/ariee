@@ -11,12 +11,12 @@ public final class NumberNode extends ASTNode {
         this.value = value;
     }
 
-    public double getValue() {
-        return value;
-    }
-
     @Override
     public <T> T accept(ASTVisitor<T> visitor) {
         return visitor.visitNumber(this);
+    }
+
+    public double getValue() {
+        return value;
     }
 }
