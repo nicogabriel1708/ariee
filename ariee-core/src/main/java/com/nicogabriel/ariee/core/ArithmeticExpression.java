@@ -1,9 +1,9 @@
 package com.nicogabriel.ariee.core;
 
-import com.nicogabriel.ariee.core.ast.ASTNode;
-import com.nicogabriel.ariee.core.token.Token;
-import com.nicogabriel.ariee.core.visitor.ASTVisitor;
-import com.nicogabriel.ariee.core.visitor.EvaluatorVisitor;
+import com.nicogabriel.ariee.core.internal.ast.ASTNode;
+import com.nicogabriel.ariee.core.internal.token.Token;
+import com.nicogabriel.ariee.core.internal.visitor.ASTVisitor;
+import com.nicogabriel.ariee.core.internal.visitor.EvaluatorVisitor;
 
 import java.util.HashMap;
 import java.util.List;

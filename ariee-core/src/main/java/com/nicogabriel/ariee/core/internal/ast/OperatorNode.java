@@ -1,7 +1,7 @@
-package com.nicogabriel.ariee.core.ast;
+package com.nicogabriel.ariee.core.internal.ast;
 
-import com.nicogabriel.ariee.core.token.Operator;
-import com.nicogabriel.ariee.core.visitor.ASTVisitor;
+import com.nicogabriel.ariee.core.internal.token.Operator;
+import com.nicogabriel.ariee.core.internal.visitor.ASTVisitor;
 
 public final class OperatorNode extends ASTNode {
 

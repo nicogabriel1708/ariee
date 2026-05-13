@@ -1,4 +1,4 @@
-package com.nicogabriel.ariee.core.token;
+package com.nicogabriel.ariee.core.internal.token;
 
 public record OperatorToken(Operator operator, int position) implements Token {
 
