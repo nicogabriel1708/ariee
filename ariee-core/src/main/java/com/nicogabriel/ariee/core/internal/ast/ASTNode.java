@@ -63,8 +63,8 @@ public abstract class ASTNode implements Iterable<ASTNode> {
                 ASTNode left = operatorNode.getLeft();
                 ASTNode right = operatorNode.getRight();
 
-                // to maintain pre-order traversal, the right child is pushed before the left child
-                // due to the stack's LIFO behavior, the left child is popped before the right child
+                // the right child is pushed before the left child, so that due to the stack's LIFO behavior,
+                // the left child is popped before the right child, maintaining pre-order traversal
 
                 if (right != null) {
                     stack.push(right);
