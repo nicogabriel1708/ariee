@@ -4,6 +4,10 @@ import java.util.Optional;
 
 public final class TokenFactory {
 
+    private TokenFactory() {
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    }
+
     public static Optional<Token> fromChar(char c, int position) {
         return fromString(String.valueOf(c), position);
     }
