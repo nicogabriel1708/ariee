@@ -2,5 +2,5 @@ package com.nicogabriel.ariee.core.internal.token;
 
 public enum TokenType {
 
-    NUMBER, OPERATOR, BRACKET
+    NUMBER, OPERATOR, BRACKET, EOF
 }
