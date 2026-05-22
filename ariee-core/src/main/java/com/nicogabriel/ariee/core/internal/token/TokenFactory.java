@@ -15,6 +15,7 @@ public final class TokenFactory {
     public static Optional<Token> create(String s, int position) {
         Optional<Token> operator = Operator.fromString(s).map(o -> new OperatorToken(o, position));
         Optional<Token> bracket = Bracket.fromString(s).map(b -> new BracketToken(b, position));
+
         return operator.isPresent() ? operator : bracket;
     }
 }
