@@ -1,5 +1,7 @@
 package com.nicogabriel.ariee.core;
 
+import java.nio.file.Path;
+
 public record ArithmeticEquation(ArithmeticExpression left, ArithmeticExpression right) {
 
     public ArithmeticEquation {
@@ -8,21 +10,12 @@ public record ArithmeticEquation(ArithmeticExpression left, ArithmeticExpression
         }
     }
 
-    public static ArithmeticEquation fromString(String equation) {
-        if (equation == null || equation.trim().isEmpty()) {
-            throw new IllegalArgumentException("The given equation must not be null or empty.");
-        }
+    public static ArithmeticEquation parse(CharSequence equation) {
+        return ArithmeticInputParser.parseEquation(equation);
+    }
 
-        String[] parts = equation.split("=");
-
-        if (parts.length != 2) {
-            throw new IllegalArgumentException("The given equation must contain exactly one '='.");
-        }
-
-        return new ArithmeticEquation(
-                ArithmeticExpression.fromString(parts[0]),
-                ArithmeticExpression.fromString(parts[1])
-        );
+    public static ArithmeticEquation parseFile(Path filePath) {
+        return ArithmeticInputParser.parseEquationFile(filePath);
     }
 
     public boolean isValid() {

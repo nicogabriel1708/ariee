@@ -1,12 +1,11 @@
 package com.nicogabriel.ariee.core;
 
 import com.nicogabriel.ariee.core.internal.ast.ASTNode;
-import com.nicogabriel.ariee.core.internal.token.Token;
 import com.nicogabriel.ariee.core.internal.visitor.ASTVisitor;
 import com.nicogabriel.ariee.core.internal.visitor.EvaluatorVisitor;
 
+import java.nio.file.Path;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public final class ArithmeticExpression {
@@ -14,23 +13,18 @@ public final class ArithmeticExpression {
     private static final double EPSILON = 1e-10;
 
     private final Map<Class<? extends ASTVisitor<?>>, Object> cache = new HashMap<>();
-    private final String rawExpression;
     private final ASTNode rootNode;
 
-    private ArithmeticExpression(String rawExpression, ASTNode rootNode) {
-        this.rawExpression = rawExpression;
+    ArithmeticExpression(ASTNode rootNode) {
         this.rootNode = rootNode;
     }
 
-    public static ArithmeticExpression fromString(String expression) {
-        if (expression == null || expression.trim().isEmpty()) {
-            throw new IllegalArgumentException("The given expression cannot be null or empty.");
-        }
+    public static ArithmeticExpression parse(CharSequence expression) {
+        return ArithmeticInputParser.parseExpression(expression);
+    }
 
-        List<Token> tokens = null; //new Lexer().tokenize(expression);
-        ASTNode root = null; // new Parser().parse(tokens);
-
-        return new ArithmeticExpression(expression, root);
+    public static ArithmeticExpression parseFile(Path filePath) {
+        return ArithmeticInputParser.parseExpressionFile(filePath);
     }
 
     public double evaluate() {
