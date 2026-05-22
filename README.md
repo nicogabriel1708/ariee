@@ -9,8 +9,8 @@ A Java library and CLI tool for evaluating arithmetic expressions.
 The core library provides the
 [`ArithmeticExpression`](ariee-core/src/main/java/com/nicogabriel/ariee/core/ArithmeticExpression.java) and
 [`ArithmeticEquation`](ariee-core/src/main/java/com/nicogabriel/ariee/core/ArithmeticEquation.java) classes.
-`ArithmeticExpression` evaluates arithmetic expressions given as strings, supporting basic operations as well as
-parentheses for grouping. `ArithmeticEquation` validates whether two expressions are equal.
+`ArithmeticExpression` evaluates arithmetic expressions, supporting basic operations as well as parentheses for 
+grouping. `ArithmeticEquation` validates whether two expressions are equal.
 
 ---
 
@@ -36,17 +36,34 @@ or the [Maven Central Repository](https://mvnrepository.com/artifact/com.nicogab
 
 ---
 
-### Example
+### Examples
+
+#### Parsing Text
 
 ```java
 import com.nicogabriel.ariee.core.ArithmeticExpression;
 import com.nicogabriel.ariee.core.ArithmeticEquation;
 
 void main() {
-    ArithmeticExpression expression = ArithmeticExpression.fromString("5 + 3 * 2");
+    ArithmeticExpression expression = ArithmeticExpression.parse("5 + 3 * 2");
     double result = expression.evaluate();
 
-    ArithmeticEquation equation = ArithmeticEquation.fromString("2 + 2 = 3 + 1");
+    ArithmeticEquation equation = ArithmeticEquation.parse("2 + 2 = 3 + 1");
+    boolean valid = equation.isValid();
+}
+```
+
+#### Parsing Files
+
+```java
+import com.nicogabriel.ariee.core.ArithmeticExpression;
+import com.nicogabriel.ariee.core.ArithmeticEquation;
+
+void main() {
+    ArithmeticExpression expression = ArithmeticExpression.parseFile(Path.of("expression.txt"));
+    double result = expression.evaluate();
+
+    ArithmeticEquation equation = ArithmeticEquation.parseFile(Path.of("equation.txt"));
     boolean valid = equation.isValid();
 }
 ```
