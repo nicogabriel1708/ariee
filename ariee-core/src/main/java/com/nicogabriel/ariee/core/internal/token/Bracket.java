@@ -1,20 +1,17 @@
 package com.nicogabriel.ariee.core.internal.token;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public enum Bracket {
 
     OPEN("("), CLOSE(")");
 
-    private static final Map<String, Bracket> SYMBOL_CACHE = new HashMap<>();
-
-    static {
-        for (Bracket bracket : values()) {
-            SYMBOL_CACHE.put(bracket.symbol, bracket);
-        }
-    }
+    private static final Map<String, Bracket> SYMBOL_CACHE =
+            Stream.of(values()).collect(Collectors.toUnmodifiableMap(bracket -> bracket.symbol, Function.identity()));
 
     private final String symbol;
 
