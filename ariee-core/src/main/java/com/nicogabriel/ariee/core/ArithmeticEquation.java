@@ -2,12 +2,13 @@ package com.nicogabriel.ariee.core;
 
 import java.nio.file.Path;
 
+import static com.nicogabriel.ariee.core.internal.util.Preconditions.checkArgumentNotNull;
+
 public record ArithmeticEquation(ArithmeticExpression left, ArithmeticExpression right) {
 
     public ArithmeticEquation {
-        if (left == null || right == null) {
-            throw new IllegalArgumentException("The given expressions must not be null.");
-        }
+        checkArgumentNotNull(left, "The given left expression must not be null.");
+        checkArgumentNotNull(right, "The given right expression must not be null.");
     }
 
     public static ArithmeticEquation parse(CharSequence equation) {

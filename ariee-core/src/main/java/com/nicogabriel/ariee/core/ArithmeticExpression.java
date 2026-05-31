@@ -9,6 +9,9 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static com.nicogabriel.ariee.core.internal.util.Preconditions.checkArgumentNotNull;
+import static com.nicogabriel.ariee.core.internal.util.Preconditions.checkNotNull;
+
 public final class ArithmeticExpression {
 
     private static final double EPSILON = 1e-10;
@@ -17,7 +20,7 @@ public final class ArithmeticExpression {
     private final ASTNode rootNode;
 
     ArithmeticExpression(ASTNode rootNode) {
-        this.rootNode = rootNode;
+        this.rootNode = checkArgumentNotNull(rootNode, "The given root node must not be null.");
     }
 
     public static ArithmeticExpression parse(CharSequence expression) {
@@ -29,13 +32,10 @@ public final class ArithmeticExpression {
     }
 
     public double evaluate() {
-        Object result = cache.computeIfAbsent(EvaluatorVisitor.class, _ -> rootNode.accept(new EvaluatorVisitor()));
-
-        if (result == null) {
-            throw new ArieeInternalException("Evaluation of the expression unexpectedly resulted in null.");
-        }
-
-        return (double) result;
+        return (double) checkNotNull(
+                cache.computeIfAbsent(EvaluatorVisitor.class, _ -> rootNode.accept(new EvaluatorVisitor())),
+                new ArieeInternalException("Evaluation of the expression unexpectedly resulted in null.")
+        );
     }
 
     @Override

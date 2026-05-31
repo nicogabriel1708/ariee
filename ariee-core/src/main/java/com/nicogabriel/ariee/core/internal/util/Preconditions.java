@@ -1,48 +1,60 @@
 package com.nicogabriel.ariee.core.internal.util;
 
+import org.jspecify.annotations.Nullable;
+
+import java.util.Objects;
+
 public final class Preconditions {
 
     private Preconditions() {
-        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated.");
+    }
+
+    public static <T> T checkArgumentNotNull(@Nullable T reference) {
+        return checkNotNull(reference, new IllegalArgumentException());
+    }
+
+    public static <T> T checkArgumentNotNull(@Nullable T reference, String errorMessage) {
+        return checkNotNull(reference, new IllegalArgumentException(errorMessage));
     }
 
     public static void checkArgument(boolean expression) {
-        if (!expression) {
-            throw new IllegalArgumentException();
-        }
+        check(expression, new IllegalArgumentException());
     }
 
     public static void checkArgument(boolean expression, String errorMessage) {
-        if (!expression) {
-            throw new IllegalArgumentException(errorMessage);
-        }
+        check(expression, new IllegalArgumentException(errorMessage));
     }
 
     public static void checkState(boolean expression) {
-        if (!expression) {
-            throw new IllegalStateException();
-        }
+        check(expression, new IllegalStateException());
     }
 
     public static void checkState(boolean expression, String errorMessage) {
+        check(expression, new IllegalStateException(errorMessage));
+    }
+
+    public static <T> T checkNotNull(@Nullable T reference) {
+        return Objects.requireNonNull(reference);
+    }
+
+    public static <T> T checkNotNull(@Nullable T reference, String errorMessage) {
+        return Objects.requireNonNull(reference, errorMessage);
+    }
+
+    public static <T> T checkNotNull(@Nullable T reference, RuntimeException runtimeException) {
+        check(reference != null, runtimeException);
+
+        return reference;
+    }
+
+    public static <T> T checkNotNullElse(@Nullable T reference, T defaultValue) {
+        return Objects.requireNonNullElse(reference, defaultValue);
+    }
+
+    private static void check(boolean expression, RuntimeException runtimeException) {
         if (!expression) {
-            throw new IllegalStateException(errorMessage);
+            throw checkNotNullElse(runtimeException, new RuntimeException());
         }
-    }
-
-    public static <T> T checkNotNull(T reference) {
-        if (reference == null) {
-            throw new NullPointerException();
-        }
-
-        return reference;
-    }
-
-    public static <T> T checkNotNull(T reference, String errorMessage) {
-        if (reference == null) {
-            throw new NullPointerException(errorMessage);
-        }
-
-        return reference;
     }
 }
