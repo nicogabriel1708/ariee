@@ -1,15 +1,15 @@
 package com.nicogabriel.ariee.core.internal.ast;
 
 import com.nicogabriel.ariee.core.internal.token.Operator;
-import com.nicogabriel.ariee.core.internal.visitor.ASTVisitor;
+import com.nicogabriel.ariee.core.internal.visitor.AstVisitor;
 
-public final class OperatorNode extends ASTNode {
+public final class OperatorNode extends AstNode {
 
     private final Operator operator;
-    private final ASTNode left;
-    private final ASTNode right;
+    private final AstNode left;
+    private final AstNode right;
 
-    public OperatorNode(Operator operator, ASTNode left, ASTNode right, int position) {
+    public OperatorNode(Operator operator, AstNode left, AstNode right, int position) {
         super(position);
         this.operator = operator;
         this.left = left;
@@ -17,7 +17,7 @@ public final class OperatorNode extends ASTNode {
     }
 
     @Override
-    public <T> T accept(ASTVisitor<T> visitor) {
+    public <T> T accept(AstVisitor<T> visitor) {
         return visitor.visitOperator(this);
     }
 
@@ -25,11 +25,11 @@ public final class OperatorNode extends ASTNode {
         return operator;
     }
 
-    public ASTNode getLeft() {
+    public AstNode getLeft() {
         return left;
     }
 
-    public ASTNode getRight() {
+    public AstNode getRight() {
         return right;
     }
 }

@@ -1,6 +1,6 @@
 package com.nicogabriel.ariee.core.internal.token;
 
-public record EOFToken(int position) implements Token {
+public record EofToken(int position) implements Token {
 
     @Override
     public TokenType type() {

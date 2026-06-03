@@ -1,8 +1,8 @@
 package com.nicogabriel.ariee.core.internal.ast;
 
-import com.nicogabriel.ariee.core.internal.visitor.ASTVisitor;
+import com.nicogabriel.ariee.core.internal.visitor.AstVisitor;
 
-public final class NumberNode extends ASTNode {
+public final class NumberNode extends AstNode {
 
     private final double value;
 
@@ -12,7 +12,7 @@ public final class NumberNode extends ASTNode {
     }
 
     @Override
-    public <T> T accept(ASTVisitor<T> visitor) {
+    public <T> T accept(AstVisitor<T> visitor) {
         return visitor.visitNumber(this);
     }
 

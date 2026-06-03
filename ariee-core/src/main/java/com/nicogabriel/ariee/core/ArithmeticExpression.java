@@ -1,8 +1,8 @@
 package com.nicogabriel.ariee.core;
 
 import com.nicogabriel.ariee.core.exception.ArieeInternalException;
-import com.nicogabriel.ariee.core.internal.ast.ASTNode;
-import com.nicogabriel.ariee.core.internal.visitor.ASTVisitor;
+import com.nicogabriel.ariee.core.internal.ast.AstNode;
+import com.nicogabriel.ariee.core.internal.visitor.AstVisitor;
 import com.nicogabriel.ariee.core.internal.visitor.EvaluatorVisitor;
 
 import java.nio.file.Path;
@@ -16,10 +16,10 @@ public final class ArithmeticExpression {
 
     private static final double EPSILON = 1e-10;
 
-    private final Map<Class<? extends ASTVisitor<?>>, Object> cache = new ConcurrentHashMap<>();
-    private final ASTNode rootNode;
+    private final Map<Class<? extends AstVisitor<?>>, Object> cache = new ConcurrentHashMap<>();
+    private final AstNode rootNode;
 
-    ArithmeticExpression(ASTNode rootNode) {
+    ArithmeticExpression(AstNode rootNode) {
         this.rootNode = checkArgumentNotNull(rootNode, "The given root node must not be null.");
     }
 

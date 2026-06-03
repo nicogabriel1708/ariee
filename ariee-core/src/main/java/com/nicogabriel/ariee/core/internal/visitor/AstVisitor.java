@@ -3,7 +3,7 @@ package com.nicogabriel.ariee.core.internal.visitor;
 import com.nicogabriel.ariee.core.internal.ast.NumberNode;
 import com.nicogabriel.ariee.core.internal.ast.OperatorNode;
 
-public interface ASTVisitor<T> {
+public interface AstVisitor<T> {
 
     T visitNumber(NumberNode node);
 

@@ -1,6 +1,6 @@
 package com.nicogabriel.ariee.core.internal.ast;
 
-import com.nicogabriel.ariee.core.internal.visitor.ASTVisitor;
+import com.nicogabriel.ariee.core.internal.visitor.AstVisitor;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -9,26 +9,26 @@ import java.util.NoSuchElementException;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-public abstract class ASTNode implements Iterable<ASTNode> {
+public abstract class AstNode implements Iterable<AstNode> {
 
     private final int position;
 
-    protected ASTNode(int position) {
+    protected AstNode(int position) {
         this.position = position;
     }
 
-    public abstract <T> T accept(ASTVisitor<T> visitor);
+    public abstract <T> T accept(AstVisitor<T> visitor);
 
-    public Stream<ASTNode> stream() {
+    public Stream<AstNode> stream() {
         return StreamSupport.stream(spliterator(), false);
     }
 
-    public Stream<ASTNode> parallelStream() {
+    public Stream<AstNode> parallelStream() {
         return StreamSupport.stream(spliterator(), true);
     }
 
     @Override
-    public Iterator<ASTNode> iterator() {
+    public Iterator<AstNode> iterator() {
         return new PreOrderIterator(this);
     }
 
@@ -36,11 +36,11 @@ public abstract class ASTNode implements Iterable<ASTNode> {
         return position;
     }
 
-    private static final class PreOrderIterator implements Iterator<ASTNode> {
+    private static final class PreOrderIterator implements Iterator<AstNode> {
 
-        private final Deque<ASTNode> stack = new ArrayDeque<>();
+        private final Deque<AstNode> stack = new ArrayDeque<>();
 
-        private PreOrderIterator(ASTNode root) {
+        private PreOrderIterator(AstNode root) {
             if (root != null) {
                 stack.push(root);
             }
@@ -52,16 +52,16 @@ public abstract class ASTNode implements Iterable<ASTNode> {
         }
 
         @Override
-        public ASTNode next() {
+        public AstNode next() {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
 
-            ASTNode node = stack.pop();
+            AstNode node = stack.pop();
 
             if (node instanceof OperatorNode operatorNode) {
-                ASTNode left = operatorNode.getLeft();
-                ASTNode right = operatorNode.getRight();
+                AstNode left = operatorNode.getLeft();
+                AstNode right = operatorNode.getRight();
 
                 // the right child is pushed before the left child, so that due to the stack's LIFO behavior,
                 // the left child is popped before the right child, maintaining pre-order traversal
