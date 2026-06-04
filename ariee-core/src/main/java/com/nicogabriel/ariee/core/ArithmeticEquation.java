@@ -1,5 +1,7 @@
 package com.nicogabriel.ariee.core;
 
+import com.nicogabriel.ariee.core.internal.util.ExceptionTranslatingExecutor;
+
 import java.nio.file.Path;
 
 import static com.nicogabriel.ariee.core.internal.util.Preconditions.checkArgumentNotNull;
@@ -12,11 +14,11 @@ public record ArithmeticEquation(ArithmeticExpression left, ArithmeticExpression
     }
 
     public static ArithmeticEquation parse(CharSequence equation) {
-        return ArithmeticInputParser.parseEquation(equation);
+        return ExceptionTranslatingExecutor.execute(ArithmeticInputParser::parseEquation, equation);
     }
 
     public static ArithmeticEquation parseFile(Path filePath) {
-        return ArithmeticInputParser.parseEquationFile(filePath);
+        return ExceptionTranslatingExecutor.execute(ArithmeticInputParser::parseEquationFile, filePath);
     }
 
     public boolean isValid() {

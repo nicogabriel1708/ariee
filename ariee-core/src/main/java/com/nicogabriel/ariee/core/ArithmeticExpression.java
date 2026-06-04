@@ -1,7 +1,8 @@
 package com.nicogabriel.ariee.core;
 
-import com.nicogabriel.ariee.core.exception.ArieeInternalException;
+import com.nicogabriel.ariee.core.exception.InternalException;
 import com.nicogabriel.ariee.core.internal.ast.AstNode;
+import com.nicogabriel.ariee.core.internal.util.ExceptionTranslatingExecutor;
 import com.nicogabriel.ariee.core.internal.visitor.AstVisitor;
 import com.nicogabriel.ariee.core.internal.visitor.EvaluatorVisitor;
 
@@ -24,18 +25,18 @@ public final class ArithmeticExpression {
     }
 
     public static ArithmeticExpression parse(CharSequence expression) {
-        return ArithmeticInputParser.parseExpression(expression);
+        return ExceptionTranslatingExecutor.execute(ArithmeticInputParser::parseExpression, expression);
     }
 
     public static ArithmeticExpression parseFile(Path filePath) {
-        return ArithmeticInputParser.parseExpressionFile(filePath);
+        return ExceptionTranslatingExecutor.execute(ArithmeticInputParser::parseExpressionFile, filePath);
     }
 
     public double evaluate() {
-        return (double) checkNotNull(
+        return ExceptionTranslatingExecutor.execute(() -> (double) checkNotNull(
                 cache.computeIfAbsent(EvaluatorVisitor.class, _ -> rootNode.accept(new EvaluatorVisitor())),
-                new ArieeInternalException("Evaluation of the expression unexpectedly resulted in null.")
-        );
+                new InternalException("Evaluation of the expression unexpectedly resulted in null.")
+        ));
     }
 
     @Override
