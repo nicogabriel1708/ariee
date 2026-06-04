@@ -1,20 +1,14 @@
 package com.nicogabriel.ariee.core.exception;
 
+import org.jspecify.annotations.Nullable;
+
 public abstract class ArieeException extends RuntimeException {
 
-    private final int position;
-
-    protected ArieeException(String message, int position) {
+    protected ArieeException(String message) {
         super(message);
-        this.position = position;
     }
 
-    protected ArieeException(String message, Throwable cause, int position) {
+    protected ArieeException(String message, @Nullable Throwable cause) {
         super(message, cause);
-        this.position = position;
-    }
-
-    public int getPosition() {
-        return position;
     }
 }

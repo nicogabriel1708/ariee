@@ -1,8 +1,10 @@
 package com.nicogabriel.ariee.core.exception;
 
-public final class EvaluationException extends ArieeException {
+import com.nicogabriel.ariee.core.internal.util.Strings;
+
+public final class EvaluationException extends PipelineException {
 
     public EvaluationException(String message, int position) {
-        super(message, position);
+        super(Strings.formatSentence(message), position);
     }
 }

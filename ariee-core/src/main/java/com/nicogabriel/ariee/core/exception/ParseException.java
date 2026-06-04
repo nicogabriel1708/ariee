@@ -1,12 +1,12 @@
 package com.nicogabriel.ariee.core.exception;
 
-public final class ParseException extends ArieeException {
+public final class ParseException extends PipelineException {
 
     private final String expected;
     private final String encountered;
 
     public ParseException(String expected, String encountered, int position) {
-        super("Expected %s but encountered '%s' at position %d".formatted(expected, encountered, position), position);
+        super("Expected %s but encountered '%s' at position %d.".formatted(expected, encountered, position), position);
         this.expected = expected;
         this.encountered = encountered;
     }
