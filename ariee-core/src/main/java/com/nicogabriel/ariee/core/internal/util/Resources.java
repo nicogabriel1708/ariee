@@ -9,7 +9,6 @@ import java.util.Properties;
 public final class Resources {
 
     private static final String PROPERTIES_FILE_PATH = "/com/nicogabriel/ariee/core/ariee-core.properties";
-
     private static final Properties PROPERTIES = new Properties();
 
     static {
