@@ -15,11 +15,11 @@ public record ArithmeticEquation(ArithmeticExpression left, ArithmeticExpression
     }
 
     public static ArithmeticEquation parse(CharSequence equation) {
-        return ExceptionTranslatingExecutor.execute(ArithmeticInputParser::parseEquation, equation);
+        return ExceptionTranslatingExecutor.execute(() -> ArithmeticInputParser.parseEquation(equation));
     }
 
     public static ArithmeticEquation parseFile(Path filePath) {
-        return ExceptionTranslatingExecutor.execute(ArithmeticInputParser::parseEquationFile, filePath);
+        return ExceptionTranslatingExecutor.execute(() -> ArithmeticInputParser.parseEquationFile(filePath));
     }
 
     public boolean isValid() {

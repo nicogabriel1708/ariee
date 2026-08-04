@@ -2,8 +2,6 @@ package com.nicogabriel.ariee.core.internal.util;
 
 import com.nicogabriel.ariee.core.exception.ArieeException;
 import com.nicogabriel.ariee.core.exception.InternalException;
-import com.nicogabriel.ariee.core.internal.util.function.ThrowingConsumer;
-import com.nicogabriel.ariee.core.internal.util.function.ThrowingFunction;
 import com.nicogabriel.ariee.core.internal.util.function.ThrowingRunnable;
 import com.nicogabriel.ariee.core.internal.util.function.ThrowingSupplier;
 import org.jspecify.annotations.Nullable;
@@ -24,51 +22,8 @@ public final class ExceptionTranslatingExecutor {
         }
     }
 
-    public static <T, R, E extends Throwable> R execute(
-            ThrowingFunction<T, R, E> function,
-            T argument,
-            @Nullable String errorMessage
-    ) {
-        try {
-            return function.apply(argument);
-        } catch (Throwable throwable) {
-            translateAndThrow(throwable, errorMessage);
-            throw new AssertionError("Unreachable: translateAndThrow() should always throw.");
-        }
-    }
-
-    public static <T, R, E extends Throwable> R execute(ThrowingFunction<T, R, E> function, T argument) {
-        return execute(function, argument, null);
-    }
-
-    public static <T, E extends Throwable> void execute(
-            ThrowingConsumer<T, E> consumer,
-            T argument,
-            @Nullable String errorMessage
-    ) {
-        try {
-            consumer.accept(argument);
-        } catch (Throwable throwable) {
-            translateAndThrow(throwable, errorMessage);
-            throw new AssertionError("Unreachable: translateAndThrow() should always throw.");
-        }
-    }
-
-    public static <T, E extends Throwable> void execute(ThrowingConsumer<T, E> consumer, T argument) {
-        execute(consumer, argument, null);
-    }
-
-    public static <T, E extends Throwable> T execute(ThrowingSupplier<T, E> supplier, @Nullable String errorMessage) {
-        try {
-            return supplier.get();
-        } catch (Throwable throwable) {
-            translateAndThrow(throwable, errorMessage);
-            throw new AssertionError("Unreachable: translateAndThrow() should always throw.");
-        }
-    }
-
-    public static <T, E extends Throwable> T execute(ThrowingSupplier<T, E> supplier) {
-        return execute(supplier, null);
+    public static <E extends Throwable> void execute(ThrowingRunnable<E> runnable) {
+        execute(runnable, null);
     }
 
     public static <E extends Throwable> void execute(ThrowingRunnable<E> runnable, @Nullable String errorMessage) {
@@ -80,7 +35,16 @@ public final class ExceptionTranslatingExecutor {
         }
     }
 
-    public static <E extends Throwable> void execute(ThrowingRunnable<E> runnable) {
-        execute(runnable, null);
+    public static <T, E extends Throwable> T execute(ThrowingSupplier<T, E> supplier) {
+        return execute(supplier, null);
+    }
+
+    public static <T, E extends Throwable> T execute(ThrowingSupplier<T, E> supplier, @Nullable String errorMessage) {
+        try {
+            return supplier.get();
+        } catch (Throwable throwable) {
+            translateAndThrow(throwable, errorMessage);
+            throw new AssertionError("Unreachable: translateAndThrow() should always throw.");
+        }
     }
 }
