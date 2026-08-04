@@ -6,6 +6,8 @@ import com.nicogabriel.ariee.core.internal.util.function.ThrowingRunnable;
 import com.nicogabriel.ariee.core.internal.util.function.ThrowingSupplier;
 import org.jspecify.annotations.Nullable;
 
+import static com.nicogabriel.ariee.core.internal.util.Preconditions.checkArgumentNotNull;
+
 public final class ExceptionTranslatingExecutor {
 
     private ExceptionTranslatingExecutor() {
@@ -27,6 +29,8 @@ public final class ExceptionTranslatingExecutor {
     }
 
     public static <E extends Throwable> void execute(ThrowingRunnable<E> runnable, @Nullable String errorMessage) {
+        checkArgumentNotNull(runnable, "The given runnable must not be null.");
+
         try {
             runnable.run();
         } catch (Throwable throwable) {
@@ -40,6 +44,8 @@ public final class ExceptionTranslatingExecutor {
     }
 
     public static <T, E extends Throwable> T execute(ThrowingSupplier<T, E> supplier, @Nullable String errorMessage) {
+        checkArgumentNotNull(supplier, "The given supplier must not be null.");
+
         try {
             return supplier.get();
         } catch (Throwable throwable) {

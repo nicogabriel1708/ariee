@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import static com.nicogabriel.ariee.core.internal.util.Preconditions.checkArgumentNotNull;
+
 public final class Resources {
 
     private static final String PROPERTIES_FILE_PATH = "/com/nicogabriel/ariee/core/ariee-core.properties";
@@ -32,6 +34,8 @@ public final class Resources {
     }
 
     public static String getProperty(String key) {
+        checkArgumentNotNull(key, "The given property key must not be null.");
+
         String value = PROPERTIES.getProperty(key);
 
         if (Strings.isNullOrBlank(value)) {
@@ -42,6 +46,8 @@ public final class Resources {
     }
 
     public static String getPropertyOrDefault(String key, String defaultValue) {
+        checkArgumentNotNull(key, "The given property key must not be null.");
+
         String value = PROPERTIES.getProperty(key);
 
         if (Strings.isNullOrBlank(value)) {

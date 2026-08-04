@@ -4,6 +4,8 @@ import com.nicogabriel.ariee.core.internal.visitor.AstVisitor;
 
 import java.util.List;
 
+import static com.nicogabriel.ariee.core.internal.util.Preconditions.checkArgumentNotNull;
+
 public final class NumberNode extends AbstractAstNode {
 
     private final double value;
@@ -19,6 +21,8 @@ public final class NumberNode extends AbstractAstNode {
 
     @Override
     public <T> T accept(AstVisitor<T> visitor) {
+        checkArgumentNotNull(visitor, "The given AST visitor must not be null.");
+
         return visitor.visitNumber(this);
     }
 

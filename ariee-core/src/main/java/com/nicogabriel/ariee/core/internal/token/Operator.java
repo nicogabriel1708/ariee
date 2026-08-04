@@ -7,6 +7,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.nicogabriel.ariee.core.internal.util.Preconditions.checkArgumentNotNull;
+
 public enum Operator {
 
     ADD("+", (a, b) -> a + b, 1, true),
@@ -32,10 +34,14 @@ public enum Operator {
     }
 
     public static Optional<Operator> fromString(String symbol) {
+        checkArgumentNotNull(symbol, "The given symbol must not be null.");
+
         return Optional.ofNullable(SYMBOL_CACHE.get(symbol));
     }
 
     public boolean evaluatesBefore(Operator other) {
+        checkArgumentNotNull(other, "The given operator must not be null.");
+
         return precedence != other.precedence ? precedence > other.precedence : isLeftAssociative;
     }
 

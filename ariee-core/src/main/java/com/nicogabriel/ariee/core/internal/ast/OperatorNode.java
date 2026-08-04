@@ -34,6 +34,8 @@ public final class OperatorNode extends AbstractAstNode {
 
     @Override
     public <T> T accept(AstVisitor<T> visitor) {
+        checkArgumentNotNull(visitor, "The given AST visitor must not be null.");
+
         return visitor.visitOperator(this);
     }
 
