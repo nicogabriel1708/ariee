@@ -2,7 +2,9 @@ package com.nicogabriel.ariee.core.internal.ast;
 
 import com.nicogabriel.ariee.core.internal.visitor.AstVisitor;
 
-public final class NumberNode extends AstNode {
+import java.util.List;
+
+public final class NumberNode extends AbstractAstNode {
 
     private final double value;
 
@@ -11,12 +13,17 @@ public final class NumberNode extends AstNode {
         this.value = value;
     }
 
+    public double getValue() {
+        return value;
+    }
+
     @Override
     public <T> T accept(AstVisitor<T> visitor) {
         return visitor.visitNumber(this);
     }
 
-    public double getValue() {
-        return value;
+    @Override
+    public List<AstNode> getChildren() {
+        return List.of();
     }
 }

@@ -3,7 +3,11 @@ package com.nicogabriel.ariee.core.internal.ast;
 import com.nicogabriel.ariee.core.internal.token.Operator;
 import com.nicogabriel.ariee.core.internal.visitor.AstVisitor;
 
-public final class OperatorNode extends AstNode {
+import java.util.List;
+
+import static com.nicogabriel.ariee.core.internal.util.Preconditions.checkArgumentNotNull;
+
+public final class OperatorNode extends AbstractAstNode {
 
     private final Operator operator;
     private final AstNode left;
@@ -11,14 +15,9 @@ public final class OperatorNode extends AstNode {
 
     public OperatorNode(Operator operator, AstNode left, AstNode right, int position) {
         super(position);
-        this.operator = operator;
-        this.left = left;
-        this.right = right;
-    }
-
-    @Override
-    public <T> T accept(AstVisitor<T> visitor) {
-        return visitor.visitOperator(this);
+        this.operator = checkArgumentNotNull(operator, "The given operator must not be null.");
+        this.left = checkArgumentNotNull(left, "The given left child node must not be null.");
+        this.right = checkArgumentNotNull(right, "The given right child node must not be null.");
     }
 
     public Operator getOperator() {
@@ -31,5 +30,15 @@ public final class OperatorNode extends AstNode {
 
     public AstNode getRight() {
         return right;
+    }
+
+    @Override
+    public <T> T accept(AstVisitor<T> visitor) {
+        return visitor.visitOperator(this);
+    }
+
+    @Override
+    public List<AstNode> getChildren() {
+        return List.of(left, right);
     }
 }
