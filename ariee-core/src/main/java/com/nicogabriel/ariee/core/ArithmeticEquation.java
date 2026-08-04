@@ -3,6 +3,7 @@ package com.nicogabriel.ariee.core;
 import com.nicogabriel.ariee.core.internal.util.ExceptionTranslatingExecutor;
 
 import java.nio.file.Path;
+import java.util.Objects;
 
 import static com.nicogabriel.ariee.core.internal.util.Preconditions.checkArgumentNotNull;
 
@@ -22,6 +23,6 @@ public record ArithmeticEquation(ArithmeticExpression left, ArithmeticExpression
     }
 
     public boolean isValid() {
-        return left.equals(right);
+        return Objects.equals(left, right);
     }
 }
