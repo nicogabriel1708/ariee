@@ -3,6 +3,7 @@ package com.nicogabriel.ariee.core;
 import com.nicogabriel.ariee.core.exception.InternalException;
 import com.nicogabriel.ariee.core.internal.ast.AstNode;
 import com.nicogabriel.ariee.core.internal.util.ExceptionTranslatingExecutor;
+import com.nicogabriel.ariee.core.internal.util.TypedKey;
 import com.nicogabriel.ariee.core.internal.visitor.AstVisitor;
 import com.nicogabriel.ariee.core.internal.visitor.EvaluatorVisitor;
 
@@ -15,9 +16,10 @@ import static com.nicogabriel.ariee.core.internal.util.Preconditions.checkNotNul
 
 public final class ArithmeticExpression {
 
+    private static final TypedKey<Double> EVALUATOR_KEY = new TypedKey<>("EVALUATOR", Double.class);
     private static final double EPSILON = 1e-10;
 
-    private final Map<Class<? extends AstVisitor<?>>, Object> cache = new ConcurrentHashMap<>();
+    private final Map<TypedKey<?>, Object> cache = new ConcurrentHashMap<>();
     private final AstNode rootNode;
 
     ArithmeticExpression(AstNode rootNode) {
@@ -33,51 +35,34 @@ public final class ArithmeticExpression {
     }
 
     public double evaluate() {
-        return ExceptionTranslatingExecutor.execute(() -> {
-            Object result = cache.computeIfAbsent(EvaluatorVisitor.class, _ -> rootNode.accept(new EvaluatorVisitor()));
-            checkNotNullOrElseThrow(
-                    result,
-                    () -> new InternalException("Evaluation of the expression unexpectedly " + "resulted in null.")
-            );
-            return (double) result;
-        });
+        return resolve(EVALUATOR_KEY, new EvaluatorVisitor());
     }
 
-    private <T> T resolve(AstVisitor<T> visitor) {
+    private <T> T resolve(TypedKey<T> key, AstVisitor<T> visitor) {
         return ExceptionTranslatingExecutor.execute(() -> {
-            Object result = cache.computeIfAbsent(
-                    (Class<? extends AstVisitor<?>>) visitor.getClass(),
-                    _ -> rootNode.accept(visitor)
-            );
-            checkNotNullOrElseThrow(
-                    result,
-                    () -> new InternalException(visitor.getClass().getSimpleName() + " unexpectedly resulted in null.")
-            );
-            return (T) result;
+            Object result = cache.get(key);
+
+            if (result == null) {
+                result = rootNode.accept(visitor);
+
+                checkNotNullOrElseThrow(
+                        result,
+                        () -> new InternalException("AST traversal for " + key + " unexpectedly resulted in null.")
+                );
+
+                Object racedResult = cache.putIfAbsent(key, result);
+
+                if (racedResult != null) {
+                    // Because of a race condition, a concurrent thread has already computed and cached the result.
+                    // To guarantee strict object identity, the local value is discarded and the existing cache entry
+                    // is returned instead.
+                    result = racedResult;
+                }
+            }
+
+            return key.cast(result);
         });
     }
-
-    /*private <R, V extends AstVisitor<R>> R applyVisitor(Class<V> visitorClass, Supplier<V> visitorSupplier) {
-        return ExceptionTranslatingExecutor.execute(() -> {
-            // Compute and cache the result if it hasn't been evaluated yet
-            Object result = cache.computeIfAbsent(
-                    visitorClass, _ -> {
-                        V visitor = visitorSupplier.get();
-                        return rootNode.accept(visitor);
-                    }
-            );
-
-            // Ensure we don't pass a null into auto-unboxing, failing fast if we do
-            return (R) checkNotNull(
-                    result,
-                    new InternalException(visitorClass.getSimpleName() + " unexpectedly resulted in null.")
-            );
-        });
-    }*/
-
-    // 1. remove functions
-    // 2. implement executeVisitor func using typedkey for the hashmap, so that we can avoid the cast and the unchecked
-    // warning
 
     @Override
     public boolean equals(Object object) {
