@@ -49,9 +49,8 @@ public final class Strings {
 
         return firstNonWhitespaceIndex == -1
                 ? string
-                : string.substring(0, firstNonWhitespaceIndex) +
-                  Character.toUpperCase(string.charAt(firstNonWhitespaceIndex)) +
-                  string.substring(firstNonWhitespaceIndex + 1);
+                : string.substring(0, firstNonWhitespaceIndex) + Character.toUpperCase(string.charAt(
+                        firstNonWhitespaceIndex)) + string.substring(firstNonWhitespaceIndex + 1);
     }
 
     public static String ensureEndsWithPeriod(String string) {
