@@ -18,8 +18,8 @@ public record ArithmeticEquation(ArithmeticExpression left, ArithmeticExpression
         return ExceptionTranslatingExecutor.execute(() -> ArithmeticInputParser.parseEquation(equation));
     }
 
-    public static ArithmeticEquation parseFile(Path filePath) {
-        return ExceptionTranslatingExecutor.execute(() -> ArithmeticInputParser.parseEquationFile(filePath));
+    public static ArithmeticEquation parseFile(Path path) {
+        return ExceptionTranslatingExecutor.execute(() -> ArithmeticInputParser.parseEquationFile(path));
     }
 
     public boolean isValid() {

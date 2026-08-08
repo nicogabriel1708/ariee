@@ -30,8 +30,8 @@ public final class ArithmeticExpression {
         return ExceptionTranslatingExecutor.execute(() -> ArithmeticInputParser.parseExpression(expression));
     }
 
-    public static ArithmeticExpression parseFile(Path filePath) {
-        return ExceptionTranslatingExecutor.execute(() -> ArithmeticInputParser.parseExpressionFile(filePath));
+    public static ArithmeticExpression parseFile(Path path) {
+        return ExceptionTranslatingExecutor.execute(() -> ArithmeticInputParser.parseExpressionFile(path));
     }
 
     public double evaluate() {
