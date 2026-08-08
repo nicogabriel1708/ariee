@@ -1,5 +1,6 @@
 package com.nicogabriel.ariee.core.internal.lexer;
 
+import com.nicogabriel.ariee.core.internal.token.Token;
 import com.nicogabriel.ariee.core.internal.util.Strings;
 
 import static com.nicogabriel.ariee.core.internal.util.Preconditions.checkArgument;
@@ -12,6 +13,16 @@ public final class ArieeLexer implements Lexer {
         checkArgument(!Strings.isNullOrBlank(rawExpression), "The given expression must not be null or blank.");
 
         this.rawExpression = rawExpression;
+    }
+
+    @Override
+    public Token peek() {
+        return null;
+    }
+
+    @Override
+    public Token next() {
+        return null;
     }
 }
 
