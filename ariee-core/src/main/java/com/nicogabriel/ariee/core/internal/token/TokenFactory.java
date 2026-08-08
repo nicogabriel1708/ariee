@@ -8,14 +8,15 @@ public final class TokenFactory {
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
     }
 
-    public static Optional<Token> create(char c, int position) {
-        return create(String.valueOf(c), position);
+    public static Optional<Token> create(char literal, int position) {
+        return create(String.valueOf(literal), position);
     }
 
-    public static Optional<Token> create(String s, int position) {
-        Optional<Token> operator = Operator.fromString(s).map(o -> new OperatorToken(o, position));
-        Optional<Token> bracket = Bracket.fromString(s).map(b -> new BracketToken(b, position));
+    public static Optional<Token> create(String literal, int position) {
+        Optional<Token> operatorToken =
+                Operator.fromString(literal).map(operator -> new OperatorToken(operator, position));
+        Optional<Token> bracketToken = Bracket.fromString(literal).map(bracket -> new BracketToken(bracket, position));
 
-        return operator.isPresent() ? operator : bracket;
+        return operatorToken.isPresent() ? operatorToken : bracketToken;
     }
 }
