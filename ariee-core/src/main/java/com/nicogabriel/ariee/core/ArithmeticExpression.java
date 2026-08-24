@@ -21,9 +21,11 @@ public final class ArithmeticExpression {
 
     private final Map<TypedKey<?>, Object> cache = new ConcurrentHashMap<>();
     private final AstNode rootNode;
+    private final String rawExpression;
 
-    ArithmeticExpression(AstNode rootNode) {
+    ArithmeticExpression(AstNode rootNode, String rawExpression) {
         this.rootNode = checkArgumentNotNull(rootNode, "The given root node must not be null.");
+        this.rawExpression = checkArgumentNotNull(rawExpression, "The given raw expression must not be null.");
     }
 
     public static ArithmeticExpression parse(CharSequence expression) {
@@ -90,5 +92,10 @@ public final class ArithmeticExpression {
     @Override
     public int hashCode() {
         return Double.hashCode(evaluate());
+    }
+
+    @Override
+    public String toString() {
+        return rawExpression;
     }
 }

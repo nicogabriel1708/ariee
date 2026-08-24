@@ -21,11 +21,12 @@ final class ArithmeticInputParser {
     }
 
     static ArithmeticExpression parseExpression(CharSequence expression) {
-        Lexer lexer = new ArieeLexer(requireNonBlankString(expression));
+        String rawExpression = requireNonBlankString(expression);
+        Lexer lexer = new ArieeLexer(rawExpression);
         Parser parser = new ArieeParser(lexer);
         AstNode root = parser.parse();
 
-        return new ArithmeticExpression(root);
+        return new ArithmeticExpression(root, rawExpression);
     }
 
     static ArithmeticExpression parseExpressionFile(Path path) {
