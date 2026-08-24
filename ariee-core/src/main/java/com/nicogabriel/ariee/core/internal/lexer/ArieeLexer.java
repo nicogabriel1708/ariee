@@ -24,6 +24,9 @@ public final class ArieeLexer implements Lexer {
     public Token next() {
         return null;
     }
+
+    // NoSuchElementException
+    // consume...(...)
 }
 
 /*

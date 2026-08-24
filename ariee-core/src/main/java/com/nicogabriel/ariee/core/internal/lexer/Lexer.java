@@ -2,18 +2,12 @@ package com.nicogabriel.ariee.core.internal.lexer;
 
 import com.nicogabriel.ariee.core.internal.token.Token;
 import com.nicogabriel.ariee.core.internal.token.TokenType;
+import com.nicogabriel.ariee.core.internal.util.iterator.PeekingIterator;
 
-import java.util.Iterator;
-
-public interface Lexer extends Iterator<Token> {
-
-    Token peek();
+public interface Lexer extends PeekingIterator<Token> {
 
     @Override
     default boolean hasNext() {
         return !peek().is(TokenType.EOF);
     }
-
-    @Override
-    Token next();
 }
