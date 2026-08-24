@@ -4,6 +4,7 @@ import com.nicogabriel.ariee.core.internal.token.Operator;
 import com.nicogabriel.ariee.core.internal.visitor.AstVisitor;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.nicogabriel.ariee.core.internal.util.Preconditions.checkArgumentNotNull;
 
@@ -42,5 +43,30 @@ public final class OperatorNode extends AbstractAstNode {
     @Override
     public List<AstNode> getChildren() {
         return List.of(left, right);
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+
+        OperatorNode other = (OperatorNode) object;
+
+        return operator == other.operator && left.equals(other.left) && right.equals(other.right);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(operator, left, right);
+    }
+
+    @Override
+    public String toString() {
+        return "(%s%s%s)".formatted(left, operator, right);
     }
 }
