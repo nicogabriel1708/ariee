@@ -6,4 +6,9 @@ public record EofToken(int position) implements Token {
     public TokenType type() {
         return TokenType.EOF;
     }
+
+    @Override
+    public String toString() {
+        return "EOF";
+    }
 }
