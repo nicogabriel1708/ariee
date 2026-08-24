@@ -17,7 +17,7 @@ import static com.nicogabriel.ariee.core.internal.util.Preconditions.checkNotNul
 public final class ArithmeticExpression {
 
     private static final TypedKey<Double> EVALUATOR_KEY = new TypedKey<>("EVALUATOR", Double.class);
-    private static final double EPSILON = 1e-10;
+    private static final double DEFAULT_EPSILON = 1e-9;
 
     private final Map<TypedKey<?>, Object> cache = new ConcurrentHashMap<>();
     private final AstNode rootNode;
@@ -64,6 +64,14 @@ public final class ArithmeticExpression {
         });
     }
 
+    public boolean isApproximatelyEqualTo(ArithmeticExpression other) {
+        return isApproximatelyEqualTo(other, DEFAULT_EPSILON);
+    }
+
+    public boolean isApproximatelyEqualTo(ArithmeticExpression other, double epsilon) {
+        return Math.abs(evaluate() - other.evaluate()) < epsilon;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) {
@@ -76,11 +84,11 @@ public final class ArithmeticExpression {
 
         ArithmeticExpression other = (ArithmeticExpression) object;
 
-        return Math.abs(evaluate() - other.evaluate()) < EPSILON;
+        return Double.compare(evaluate(), other.evaluate()) == 0;
     }
 
     @Override
     public int hashCode() {
-        return Double.hashCode(Math.round(evaluate() / EPSILON) * EPSILON);
+        return Double.hashCode(evaluate());
     }
 }
