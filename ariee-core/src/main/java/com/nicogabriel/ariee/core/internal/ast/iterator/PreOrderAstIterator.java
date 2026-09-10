@@ -26,6 +26,7 @@ public final class PreOrderAstIterator implements Iterator<AstNode> {
             throw new NoSuchElementException();
         }
 
+        // since nullity is prohibited at insertion, the popped node is guaranteed to be non-null
         AstNode node = stack.pop();
         List<AstNode> children = checkNotNull(
                 node.getChildren(),
@@ -36,7 +37,11 @@ public final class PreOrderAstIterator implements Iterator<AstNode> {
 
         // the children are pushed in reverse order to maintain pre-order traversal (due to the stack's LIFO behavior)
         for (AstNode child : children.reversed()) {
-            stack.push(child);
+            stack.push(checkNotNull(
+                    child,
+                    () -> "The list returned by the " + node.getClass().getSimpleName()
+                          + ".getChildren() method must not contain null elements."
+            ));
         }
 
         return node;
